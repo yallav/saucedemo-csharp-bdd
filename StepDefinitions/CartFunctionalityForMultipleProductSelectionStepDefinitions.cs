@@ -87,8 +87,8 @@ namespace Saucedemo_Csharp_Bdd.StepDefinitions
         [Then("each product should have a {string} button")]
         public async Task ThenEachProductShouldHaveAButton(string expectedButtonTitle)
         {
-            var removeButtonCount = sc.Get<int>("ActualProductCount");
-            (await cartPage.GetRemoveButtonCountAsync()).ShouldBe(removeButtonCount);
+            var productCount = sc.Get<int>("ActualProductCount");
+            (await cartPage.GetRemoveButtonCountAsync()).ShouldBe(productCount);
             
             var productContainers = await cartPage.GetProductContainersAsync();
 
