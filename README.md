@@ -1,6 +1,6 @@
 ﻿# SauceDemo-PlaywrightCSharpBDD
 
-A robust C# test automation framework using Playwright and Reqnroll (BDD) for end-to-end testing of the Posters Galore application. This project demonstrates modern testing practices with behavior-driven development, dependency injection, and the Page Object Model pattern.
+A robust C# test automation framework using Playwright and Reqnroll (BDD) for end-to-end testing of the Sauce Demo application. This project demonstrates modern testing practices with behavior-driven development, dependency injection, and the Page Object Model pattern.
 
 ## 🚀 Features
 

@@ -7,8 +7,8 @@ namespace Saucedemo_Csharp_Bdd.Pages
     {
         Task<string?> GetPageTitleAsync();
         Task<int> GetProductCountAsync();
-        Task<int> AddProductToCartAndReturnIndexAsync();
-        Task<string> GetProductNameAsync(int index);
+        Task OpenTheItemAsync();
+        Task<string> GetProductNameAsync();
         Task<bool> IsAddToCartButtonVisibleForProduct();
         Task ClickAddToCartButtonAsync();
         Task NavigateBackToProductsPageAsync();
@@ -31,14 +31,13 @@ namespace Saucedemo_Csharp_Bdd.Pages
 
         public async Task<int> GetProductCountAsync() => await ProductItems.CountAsync();
 
-        public async Task<int> AddProductToCartAndReturnIndexAsync()
+        public async Task OpenTheItemAsync()
         {
             int randiIndex = await GetProductIndexWhichIsAvailableToAddToCart();
             await ProductItems.Nth(randiIndex).Locator("//a[contains(@id,'item') and contains(@id,'img')]").ClickAsync();
-            return randiIndex;
         }
 
-        public async Task<string> GetProductNameAsync(int index)
+        public async Task<string> GetProductNameAsync()
         {
             return await ProductName.TextContentAsync() ?? string.Empty;
         }
@@ -68,7 +67,9 @@ namespace Saucedemo_Csharp_Bdd.Pages
             int count = await ProductItems.CountAsync();
             int randomIndex = new Random().Next(0, count);
 
-            if (await AddToCartButton.Nth(randomIndex).IsVisibleAsync())
+            if (await AddToCartButton.Nth(randomIndex).IsVisibleAsync() &&
+                await ProductItems.Nth(randomIndex).Locator("//button[text()='Add to cart']").IsVisibleAsync())
+
                 return randomIndex;
             else
                 return -1;
