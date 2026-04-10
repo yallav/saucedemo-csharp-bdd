@@ -34,6 +34,10 @@ namespace Saucedemo_Csharp_Bdd.Pages
         public async Task OpenTheItemAsync()
         {
             int randiIndex = await GetProductIndexWhichIsAvailableToAddToCart();
+            
+            if(randiIndex == -1) 
+                throw new InvalidOperationException("No product available to add to cart.");
+
             await ProductItems.Nth(randiIndex).Locator("//a[contains(@id,'item') and contains(@id,'img')]").ClickAsync();
         }
 

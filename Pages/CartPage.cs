@@ -42,11 +42,11 @@ namespace Saucedemo_Csharp_Bdd.Pages
 
         public async Task<bool> IsElementVisibleAsync(string elementName)
         {
-            var locator = await GetTheLocator(elementName);
+            var locator = GetTheLocator(elementName);
             return await locator.IsVisibleAsync();
         }
 
-        private async Task<ILocator> GetTheLocator(string elementName)
+        private ILocator GetTheLocator(string elementName)
         {
             return elementName switch
             {
