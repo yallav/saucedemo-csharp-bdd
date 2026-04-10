@@ -23,11 +23,11 @@ namespace Saucedemo_Csharp_Bdd.Infrastructure
             services.Configure<TestSettings>(options => configuration.GetSection("TestSettings").Bind(options));
             services.AddSingleton<IConfiguration>(configuration);
 
-            services.AddScoped<IPlaywrightDriver, PlaywrightDriver>();
-            services.AddScoped<IHomePage, HomePage>();
-            services.AddScoped<ILoginPage, LoginPage>();
-            services.AddScoped<IProductsPage, ProductsPage>();
-            services.AddScoped<ICartPage, CartPage>();
+            services.AddSingleton<IPlaywrightDriver, PlaywrightDriver>();
+            services.AddSingleton<IHomePage, HomePage>();
+            services.AddSingleton<ILoginPage, LoginPage>();
+            services.AddSingleton<IProductsPage, ProductsPage>();
+            services.AddSingleton<ICartPage, CartPage>();
 
             return services;
         }
