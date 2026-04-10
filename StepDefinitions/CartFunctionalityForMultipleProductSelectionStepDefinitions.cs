@@ -36,8 +36,8 @@ namespace Saucedemo_Csharp_Bdd.StepDefinitions
         [When("I open the first product details page")]
         public async Task WhenIOpenTheFirstProductDetailsPage()
         {
-            await productsPage.ClickOnProductByIndexAsync(0);
-            var firstProductName = await productsPage.GetProductNameAsync();
+            int selectedCartItemIndex = await productsPage.AddProductToCartAndReturnIndexAsync();
+            var firstProductName = await productsPage.GetProductNameAsync(selectedCartItemIndex);
             sc.Add("FirstProductName",firstProductName );
         }
 
@@ -57,8 +57,8 @@ namespace Saucedemo_Csharp_Bdd.StepDefinitions
         [When("I open the second product details page")]
         public async Task WhenIOpenTheSecondProductDetailsPage()
         {
-            await productsPage.ClickOnProductByIndexAsync(1);
-            var secondProductName = await productsPage.GetProductNameAsync();
+            int selectedCartItemIndex = await productsPage.AddProductToCartAndReturnIndexAsync();
+            var secondProductName = await productsPage.GetProductNameAsync(selectedCartItemIndex);
             sc.Add("SecondProductName", secondProductName);
         }
 
@@ -72,13 +72,6 @@ namespace Saucedemo_Csharp_Bdd.StepDefinitions
         public async Task ThenIShouldSeeProductsInTheCart(int expectedProductsCount)
         {
             var actualProductCount = await cartPage.GetProductCountAsync();
-            actualProductCount.ShouldBe(expectedProductsCount);
-        }
-
-        [Then("each product should have a {string} button")]
-        public async Task ThenEachProductShouldHaveAButton(string expectedButtonTitle)
-        {
-            (await cartPage.GetRemoveButtonCountAsync()).ShouldBe(2);
 
             var productContainers = await cartPage.GetProductContainersAsync();
             var firstProductName = sc.Get<string>("FirstProductName");
@@ -86,6 +79,16 @@ namespace Saucedemo_Csharp_Bdd.StepDefinitions
 
             productContainers.Where(item => item.Contains(firstProductName)).ShouldNotBeEmpty();
             productContainers.Where(item => item.Contains(secondProductName)).ShouldNotBeEmpty();
+
+            actualProductCount.ShouldBe(expectedProductsCount);
+        }
+
+        [Then("each product should have a {string} button")]
+        public async Task ThenEachProductShouldHaveAButton(string expectedButtonTitle)
+        {
+            (await cartPage.GetRemoveButtonCountAsync()).ShouldBe(2);
+            
+            var productContainers = await cartPage.GetProductContainersAsync();
 
             foreach (var item in productContainers)
             {

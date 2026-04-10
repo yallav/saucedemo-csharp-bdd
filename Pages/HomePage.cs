@@ -20,7 +20,12 @@ namespace Saucedemo_Csharp_Bdd.Pages
 
         public async Task NavigateAsync()
         {
-            await Page.GotoAsync(_testSettings.BaseUrl);
+            string? _applicationUrl = _testSettings.BaseUrl ?? Environment.GetEnvironmentVariable("BaseUrl");
+                
+            if (string.IsNullOrEmpty(_applicationUrl))
+                    throw new InvalidOperationException("Application URL must be provided either through configuration or environment variables.");
+
+            await Page.GotoAsync(_applicationUrl);
         }
     }
 }

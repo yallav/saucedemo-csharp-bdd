@@ -7,8 +7,8 @@ namespace Saucedemo_Csharp_Bdd.Pages
     {
         Task<string?> GetPageTitleAsync();
         Task<int> GetProductCountAsync();
-        Task ClickOnProductByIndexAsync(int index);
-        Task<string> GetProductNameAsync();
+        Task<int> AddProductToCartAndReturnIndexAsync();
+        Task<string> GetProductNameAsync(int index);
         Task<bool> IsAddToCartButtonVisibleForProduct();
         Task ClickAddToCartButtonAsync();
         Task NavigateBackToProductsPageAsync();
@@ -22,8 +22,8 @@ namespace Saucedemo_Csharp_Bdd.Pages
 
         private ILocator PageTitle => Page.Locator("//span[@class='title']");
         private ILocator ProductItems => Page.Locator("//div[@class='inventory_item']");
-        private ILocator AddToCartButton => Page.Locator("//button[contains(@class, 'btn_inventory')]");
         private ILocator ProductName => Page.Locator("//div[@data-test='inventory-item-name']");
+        private ILocator AddToCartButton => Page.Locator("//button[contains(@class, 'btn_inventory')]");
         private ILocator BackToProductsButton => Page.Locator("//button[@id='back-to-products']");
         private ILocator CartLink => Page.Locator("//a[@class='shopping_cart_link']");
 
@@ -31,12 +31,14 @@ namespace Saucedemo_Csharp_Bdd.Pages
 
         public async Task<int> GetProductCountAsync() => await ProductItems.CountAsync();
 
-        public async Task ClickOnProductByIndexAsync(int index)
+        public async Task<int> AddProductToCartAndReturnIndexAsync()
         {
-            await ProductItems.Nth(index).ClickAsync();
+            int randiIndex = await GetProductIndexWhichIsAvailableToAddToCart();
+            await ProductItems.Nth(randiIndex).Locator("//a[contains(@id,'item') and contains(@id,'img')]").ClickAsync();
+            return randiIndex;
         }
 
-        public async Task<string> GetProductNameAsync()
+        public async Task<string> GetProductNameAsync(int index)
         {
             return await ProductName.TextContentAsync() ?? string.Empty;
         }
@@ -59,6 +61,17 @@ namespace Saucedemo_Csharp_Bdd.Pages
         public async Task ClickOnCartLinkAsync()
         {
             await CartLink.ClickAsync();
+        }
+
+        private async Task<int> GetProductIndexWhichIsAvailableToAddToCart()
+        {
+            int count = await ProductItems.CountAsync();
+            int randomIndex = new Random().Next(0, count);
+
+            if (await AddToCartButton.Nth(randomIndex).IsVisibleAsync())
+                return randomIndex;
+            else
+                return -1;
         }
     }
 }
