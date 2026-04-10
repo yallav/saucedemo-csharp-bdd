@@ -1,4 +1,4 @@
-﻿# PG-PlaywrightCSharpBDD
+﻿# SauceDemo-PlaywrightCSharpBDD
 
 A robust C# test automation framework using Playwright and Reqnroll (BDD) for end-to-end testing of the Posters Galore application. This project demonstrates modern testing practices with behavior-driven development, dependency injection, and the Page Object Model pattern.
 
@@ -10,7 +10,6 @@ A robust C# test automation framework using Playwright and Reqnroll (BDD) for en
 - **Page Object Model** - Maintainable test code with clear separation of concerns
 - **.NET 8** - Built on the latest .NET framework with C# 12 features
 - **Configurable** - Easy configuration via `appsettings.json`
-- **Parallel Execution Ready** - Designed for scalable test execution
 
 ## 🛠️ Technologies
 
@@ -45,7 +44,7 @@ Edit `Configurations/appsettings.json`:
 
 ```json
 {
-  "BaseUrl": "https://yourapplication.url",
+  "BaseUrl": "https://www.saucedemo.com/",
   "Browser": "chromium",
   "Headless": true,
   "SlowMo": 50
@@ -68,6 +67,9 @@ Edit `Configurations/appsettings.json`:
 2. Click __Run All__ or right-click specific tests
 
 ### Command Line
+```bash
+dotnet test
+```
 
 ## 🏗️ Architecture
 
@@ -77,21 +79,12 @@ Edit `Configurations/appsettings.json`:
 
 Ensure `appsettings.json` has __Build Action__ set to __Content__ and __Copy to Output Directory__ set to __Copy always__.
 
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
 ### Coding Standards
 
 - Follow C# naming conventions
 - Use async/await for asynchronous operations
 - Implement Page Object Model for UI interactions
 - Write descriptive Gherkin scenarios
-- Add XML documentation for public APIs
 
 ## 📝 Best Practices
 
@@ -112,12 +105,6 @@ Ensure `appsettings.json` has __Build Action__ set to __Content__ and __Copy to 
 ## 👥 Authors
 
 - **Vijay Yalla** - [@yallav](https://github.com/yallav)
-
-## 🙏 Acknowledgments
-
-- Playwright team for the excellent browser automation library
-- Reqnroll team for continuing the BDD legacy
-- Open source community for continuous inspiration
 
 ---
 
