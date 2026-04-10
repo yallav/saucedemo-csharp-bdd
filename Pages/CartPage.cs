@@ -17,7 +17,6 @@ namespace Saucedemo_Csharp_Bdd.Pages
             ?? throw new InvalidOperationException("Playwright driver not initialized. Call InitializeAsync first.");
 
         private ILocator ProductItems => Page.Locator("//div[@data-test='inventory-item']");
-        private ILocator ProductName => Page.Locator("//div[@data-test='inventory-item-name']");
         private ILocator RemoveButton => Page.Locator("//button[contains(@id,'remove')]");
         private ILocator ContinueShoppingButton => Page.Locator("//button[@id='continue-shopping']");
         private ILocator CheckoutButton => Page.Locator("//button[@id='checkout']");
@@ -32,11 +31,11 @@ namespace Saucedemo_Csharp_Bdd.Pages
 
         public async Task<string[]> GetProductContainersAsync()
         {
-            int count = await ProductName.CountAsync();
+            int count = await ProductItems.CountAsync();
             string[] productContainers = new string[count];
             for (int i = 0; i < count; i++)
             {
-                productContainers[i] = await ProductName.Nth(i).InnerHTMLAsync();
+                productContainers[i] = await ProductItems.Nth(i).InnerHTMLAsync();
             }
             return productContainers;
         }
