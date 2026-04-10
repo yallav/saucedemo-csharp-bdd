@@ -1,28 +1,20 @@
-﻿using Drivers;
-using Reqnroll;
+﻿using Saucedemo_Csharp_Bdd.Drivers;
 
-namespace Support
+namespace Saucedemo_Csharp_Bdd.Support
 {
     [Binding]
-    public class Hooks
+    public class Hooks(IPlaywrightDriver playwrightDriver)
     {
-        private readonly IPlaywrightDriver _playwrightDriver;
-
-        public Hooks(IPlaywrightDriver playwrightDriver)
-        {
-            _playwrightDriver = playwrightDriver;
-        }
-
         [BeforeScenario]
         public async Task BeforeScenario()
         {
-            await _playwrightDriver.InitializeAsync();
+            await playwrightDriver.InitializeAsync();
         }
 
         [AfterScenario]
         public async Task AfterScenario()
         {
-            await _playwrightDriver.DisposeAsync();
+            await playwrightDriver.DisposeAsync();
         }
     }
 }

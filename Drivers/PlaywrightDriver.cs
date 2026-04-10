@@ -1,21 +1,24 @@
-﻿using Configurations;
-using Microsoft.Extensions.Options;
-using Microsoft.Playwright;
+﻿using Microsoft.Playwright;
+using Saucedemo_Csharp_Bdd.Configurations;
 
-namespace Drivers
+namespace Saucedemo_Csharp_Bdd.Drivers
 {
-    public class PlaywrightDriver : IPlaywrightDriver
+    public interface IPlaywrightDriver
     {
-        private TestSettings _testSettings;
+        IBrowser? Browser { get; }
+        IBrowserContext? Context { get; }
+        IPage? Page { get; }
+        Task DisposeAsync();
+        Task InitializeAsync();
+    }
+
+    public class PlaywrightDriver(TestSettings testsettings) : IPlaywrightDriver
+    {
+        private readonly TestSettings _testSettings = testsettings;
         private IPlaywright? _playwright;
         public IBrowser? Browser { get; private set; }
         public IBrowserContext? Context { get; private set; }
         public IPage? Page { get; private set; }
-
-        public PlaywrightDriver(IOptions<TestSettings> testsettings)
-        {
-            _testSettings = testsettings.Value;
-        }
 
         public async Task InitializeAsync()
         {

@@ -1,7 +1,6 @@
-﻿using Configurations;
-using Drivers;
-using Microsoft.Extensions.Options;
-using Microsoft.Playwright;
+﻿using Microsoft.Playwright;
+using Saucedemo_Csharp_Bdd.Configurations;
+using Saucedemo_Csharp_Bdd.Drivers;
 
 namespace Saucedemo_Csharp_Bdd.Pages
 {
@@ -10,10 +9,8 @@ namespace Saucedemo_Csharp_Bdd.Pages
         Task LoginAsync();
     }
 
-    public class LoginPage(IPlaywrightDriver playwrightDriver, IOptions<TestSettings> testSettings) : ILoginPage
+    public class LoginPage(IPlaywrightDriver playwrightDriver, TestSettings testSettings) : ILoginPage
     {
-        private readonly TestSettings _testSettings = testSettings.Value;
-
         private IPage Page => playwrightDriver.Page
             ?? throw new InvalidOperationException("Playwright driver not initialized. Call InitializeAsync first.");
 
@@ -23,8 +20,8 @@ namespace Saucedemo_Csharp_Bdd.Pages
 
         public async Task LoginAsync()
         {
-            string? _userName = _testSettings.Username ?? Environment.GetEnvironmentVariable("Username");
-            string? _password = _testSettings.Password ?? Environment.GetEnvironmentVariable("Password");
+            string? _userName = testSettings.Username ?? Environment.GetEnvironmentVariable("Username");
+            string? _password = testSettings.Password ?? Environment.GetEnvironmentVariable("Password");
 
             if (string.IsNullOrEmpty(_userName) && string.IsNullOrEmpty(_password))
                 throw new InvalidOperationException("Username and Password must be provided either through configuration or environment variables.");
