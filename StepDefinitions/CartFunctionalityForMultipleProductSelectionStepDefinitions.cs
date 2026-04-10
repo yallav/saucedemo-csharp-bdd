@@ -36,8 +36,8 @@ namespace Saucedemo_Csharp_Bdd.StepDefinitions
         [When("I open the first product details page")]
         public async Task WhenIOpenTheFirstProductDetailsPage()
         {
-            int selectedCartItemIndex = await productsPage.AddProductToCartAndReturnIndexAsync();
-            var firstProductName = await productsPage.GetProductNameAsync(selectedCartItemIndex);
+            await productsPage.OpenTheItemAsync();
+            var firstProductName = await productsPage.GetProductNameAsync();
             sc.Add("FirstProductName",firstProductName );
         }
 
@@ -57,8 +57,8 @@ namespace Saucedemo_Csharp_Bdd.StepDefinitions
         [When("I open the second product details page")]
         public async Task WhenIOpenTheSecondProductDetailsPage()
         {
-            int selectedCartItemIndex = await productsPage.AddProductToCartAndReturnIndexAsync();
-            var secondProductName = await productsPage.GetProductNameAsync(selectedCartItemIndex);
+            await productsPage.OpenTheItemAsync();
+            var secondProductName = await productsPage.GetProductNameAsync();
             sc.Add("SecondProductName", secondProductName);
         }
 
@@ -72,6 +72,7 @@ namespace Saucedemo_Csharp_Bdd.StepDefinitions
         public async Task ThenIShouldSeeProductsInTheCart(int expectedProductsCount)
         {
             var actualProductCount = await cartPage.GetProductCountAsync();
+            sc.Add("ActualProductCount", actualProductCount);
 
             var productContainers = await cartPage.GetProductContainersAsync();
             var firstProductName = sc.Get<string>("FirstProductName");
@@ -86,7 +87,8 @@ namespace Saucedemo_Csharp_Bdd.StepDefinitions
         [Then("each product should have a {string} button")]
         public async Task ThenEachProductShouldHaveAButton(string expectedButtonTitle)
         {
-            (await cartPage.GetRemoveButtonCountAsync()).ShouldBe(2);
+            var removeButtonCount = sc.Get<int>("ActualProductCount");
+            (await cartPage.GetRemoveButtonCountAsync()).ShouldBe(removeButtonCount);
             
             var productContainers = await cartPage.GetProductContainersAsync();
 
