@@ -1,5 +1,5 @@
-﻿using Drivers;
-using Microsoft.Playwright;
+﻿using Microsoft.Playwright;
+using Saucedemo_Csharp_Bdd.Drivers;
 
 namespace Saucedemo_Csharp_Bdd.Pages
 {

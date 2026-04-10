@@ -25,6 +25,9 @@
     </ItemGroup>
 
     <ItemGroup>
+        <None Update="Configurations\appsettings.QA.json">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
         <None Update="Configurations\appsettings.json">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>

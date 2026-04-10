@@ -1,8 +1,8 @@
-﻿using Configurations;
-using Drivers;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Reqnroll.Microsoft.Extensions.DependencyInjection;
+using Saucedemo_Csharp_Bdd.Configurations;
+using Saucedemo_Csharp_Bdd.Drivers;
 using Saucedemo_Csharp_Bdd.Pages;
 
 namespace Saucedemo_Csharp_Bdd.Infrastructure
@@ -14,20 +14,26 @@ namespace Saucedemo_Csharp_Bdd.Infrastructure
         {
             var services = new ServiceCollection();
 
+            var environment = Environment.GetEnvironmentVariable("TEST_ENV") ?? "QA";
+
             var configuration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("Configurations/appsettings.json", optional: false)
+                .AddJsonFile($"Configurations/appsettings.{environment}.json", optional: true)
                 .AddEnvironmentVariables()
                 .Build();
 
-            services.Configure<TestSettings>(options => configuration.GetSection("TestSettings").Bind(options));
-            services.AddSingleton<IConfiguration>(configuration);
+            var testSettings = configuration
+                    .GetSection("TestSettings")
+                    .Get<TestSettings>()
+                    ?? throw new Exception("TestSettings configuration is missing");
 
+            services.AddSingleton(testSettings);
             services.AddSingleton<IPlaywrightDriver, PlaywrightDriver>();
-            services.AddSingleton<IHomePage, HomePage>();
-            services.AddSingleton<ILoginPage, LoginPage>();
-            services.AddSingleton<IProductsPage, ProductsPage>();
-            services.AddSingleton<ICartPage, CartPage>();
+            services.AddScoped<IHomePage, HomePage>();
+            services.AddScoped<ILoginPage, LoginPage>();
+            services.AddScoped<IProductsPage, ProductsPage>();
+            services.AddScoped<ICartPage, CartPage>();
 
             return services;
         }

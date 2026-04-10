@@ -1,4 +1,4 @@
-﻿namespace Configurations
+﻿namespace Saucedemo_Csharp_Bdd.Configurations
 {
     public class TestSettings
     {
